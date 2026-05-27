@@ -34,10 +34,6 @@ It focuses on:
 - Responsive layout structure
 - Simple and beginner-friendly UI
 
----
-
-## 📷 Project Preview
-(Add screenshot of your project here)
 
 ---
 

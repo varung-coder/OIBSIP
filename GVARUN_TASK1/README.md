@@ -7,44 +7,46 @@ This repository contains the tasks completed as part of the **Oasis Infobyte Web
 
 # 🚀 Task 1 - Landing Page
 
-## 📖 Project Description
-This project is a responsive **landing page** built using HTML, CSS, and JavaScript.  
-The goal of this task is to understand the fundamentals of web development including layout design, section structuring, styling, and responsiveness.
+## 📖 Project Overview
+This project is a responsive and visually appealing **landing page** built using HTML, CSS, and JavaScript.
+
+The objective of this task is to strengthen foundational web development skills such as layout design, section structuring, styling, and basic interactivity.
 
 It focuses on:
-- Structuring a webpage using HTML
-- Styling using CSS
-- Adding interactivity using JavaScript
-- Creating a visually appealing UI using proper spacing, alignment, and color palette
+- Structuring web pages using semantic HTML
+- Styling with modern CSS techniques
+- Adding basic interactivity using JavaScript
+- Designing a clean and user-friendly UI
 
 ---
 
 ## 🔗 Live Demo
-https://varung-coder.github.io/OIBSIP/GVARUN_TASK1/
+👉 https://varung-coder.github.io/OIBSIP/GVARUN_TASK1/
+
+---
 
 ## 🛠️ Technologies Used
 - HTML5
 - CSS3
-- JavaScript (Basic)
+- JavaScript (Vanilla)
 
 ---
 
-## ✨ Features
-- Clean and modern landing page design
+## ✨ Key Features
+- Modern and responsive landing page design
 - Hero section with call-to-action
 - Feature highlights section
 - Testimonials section
-- Responsive layout structure
-- Simple and beginner-friendly UI
-
+- Clean UI with proper spacing and alignment
+- Beginner-friendly structure
 
 ---
 
-## 🎯 Learning Outcomes
-- Understanding webpage structure
-- Working with sections and layouts
-- Using CSS for styling and alignment
-- Improving UI/UX design sense
+## 🎯 Key Learnings
+- Understanding webpage structure and layout design
+- Working with HTML sections and semantic elements
+- Improving CSS styling and responsiveness
+- Enhancing UI/UX design sense
 - Building a complete landing page from scratch
 
 ---
@@ -55,9 +57,9 @@ Oasis Infobyte Web Development Intern
 
 ---
 
-## 📌 Note
-This project is created as part of the **Oasis Infobyte Internship - Task 1 Submission**.
+## 📌 Submission Note
+This project is submitted as part of the **Oasis Infobyte Internship - Task 1** requirements.
 
 ---
 
-⭐ Thank you for reviewing my project!
+⭐ Thank you for reviewing my submission!

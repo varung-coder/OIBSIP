@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="StudyAI - A simple, student-built tool to organize notes and stay focused." />
+  <title>StudyAI | Make sense of your study chaos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <span class="logo-icon">📚</span>
+        Study<span class="logo-accent">AI</span>
+      </a>
+      
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#focus" class="nav-link">Focus Mode</a></li>
+          <li><a href="#why" class="nav-link">Why Us</a></li>
+          <li><a href="#testimonials" class="nav-link">Reviews</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          </button>
+          <a href="#contact" class="btn btn-outline">Say Hi 👋</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="badge">Version 1.0 (Beta)</span>
+          <h1 class="hero-title">
+            Make sense of your <br/>
+            <span class="highlight">study chaos.</span>
+          </h1>
+          <p class="hero-desc">
+            A simple, no-nonsense tool to organize your messy lecture notes, block out distractions, and actually get your assignments done before 11:59 PM.
+          </p>
+          <div class="hero-actions">
+            <a href="#focus" class="btn btn-primary">Try Focus Mode</a>
+            <a href="#features" class="btn btn-text">See what it does &rarr;</a>
+          </div>
+          <div class="hero-student-note">
+            <p><em>"Built for students, by a student."</em></p>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="mockup-window">
+            <div class="mockup-header">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-title">CS101: Data Structures</div>
+              <p class="mockup-text line-1"></p>
+              <p class="mockup-text line-2"></p>
+              <p class="mockup-text line-3"></p>
+              <div class="mockup-box">
+                <strong>Summary generated:</strong>
+                <p>Arrays are contiguous memory blocks. Linked lists use pointers. Use HashMaps for O(1) lookups.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Everything you need. Nothing you don't.</h2>
+          <p>We skipped the corporate dashboards and focused on tools that actually help when you're pulling an all-nighter.</p>
+        </div>
+        <div class="features-grid">
+
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>Notes Organizer</h3>
+            <p>Dump your messy, half-asleep lecture notes here. We'll automatically clean them up, highlight key terms, and make them readable before midterms.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">⏱️</div>
+            <h3>Focus Timer</h3>
+            <p>A built-in Pomodoro timer to force you to study for 25 minutes straight without checking your phone or getting distracted.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3>Deadline Tracker</h3>
+            <p>Keep all your upcoming exams and assignment due dates in one place. No more forgetting that essay until the night before.</p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE FOCUS MODE SECTION -->
+    <section class="focus-section" id="focus">
+      <div class="container focus-container">
+        <div class="focus-content">
+          <span class="badge">Try it out</span>
+          <h2>Deep Focus Mode</h2>
+          <p>Studying is hard when your phone is buzzing. Use our built-in Pomodoro timer to break your work into manageable 25-minute chunks.</p>
+          <ul class="focus-benefits">
+            <li>✓ 25 minutes of deep work</li>
+            <li>✓ 5 minutes of rest</li>
+            <li>✓ Builds a consistent study streak</li>
+          </ul>
+        </div>
+        
+        <div class="focus-app">
+          <div class="timer-card">
+            <div class="timer-nav">
+              <button class="timer-tab active" data-time="25">Pomodoro</button>
+              <button class="timer-tab" data-time="5">Short Break</button>
+            </div>
+            <div class="timer-display" id="time-display">25:00</div>
+            <div class="timer-controls">
+              <button class="btn btn-primary btn-large" id="timer-btn">Start Session</button>
+            </div>
+            <p class="timer-status" id="timer-status">Ready to focus?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY SECTION -->
+    <section class="why-section" id="why">
+      <div class="container">
+        <div class="why-grid">
+          <div class="why-image-wrapper">
+            <div class="why-shape"></div>
+            <div class="why-text-box">
+              <h3>Why I built this</h3>
+              <p>I couldn't find a study app that just did the basics without charging $10/month or overloading me with complicated features.</p>
+              <p>So, I made my own.</p>
+            </div>
+          </div>
+          <div class="why-content">
+            <h2>Built to solve real student problems.</h2>
+            <div class="why-list">
+              <div class="why-item">
+                <div class="why-icon">💡</div>
+                <div class="why-text">
+                  <h4>Keeps things simple</h4>
+                  <p>Less time learning how to use the app, more time actually getting your coursework done.</p>
+                </div>
+              </div>
+              <div class="why-item">
+                <div class="why-icon">🚫</div>
+                <div class="why-text">
+                  <h4>No paywalls for basic features</h4>
+                  <p>Students are broke. Essential tools like timers and note organization shouldn't be locked away.</p>
+                </div>
+              </div>
+              <div class="why-item">
+                <div class="why-icon">🤝</div>
+                <div class="why-text">
+                  <h4>By a student, for students</h4>
+                  <p>No corporate jargon. Just tools that make surviving university a little bit easier.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-header">
+          <h2>What others are saying</h2>
+          <p>Real feedback from classmates and early users.</p>
+        </div>
+        <div class="testimonials-grid">
+          
+          <div class="testimonial-card">
+            <p class="quote">"Finally, an app that doesn't feel bloated. The focus timer is exactly what I needed to stop procrastinating on my essays."</p>
+            <div class="author">
+              <div class="avatar bg-sage">A</div>
+              <div class="author-info">
+                <strong>Alex M.</strong>
+                <span>Computer Science Major</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <p class="quote">"I use the note organizer every day after my 8 AM lecture. It turns my half-asleep typing into actual study material. Saves me so much time."</p>
+            <div class="author">
+              <div class="avatar bg-ochre">S</div>
+              <div class="author-info">
+                <strong>Sarah J.</strong>
+                <span>Biology Student</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION (Form Validation) -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-card">
+          <div class="contact-info">
+            <h2>Got ideas or feedback?</h2>
+            <p>I'm always looking to improve StudyAI. Whether you found a bug or have a feature request, drop a message below.</p>
+          </div>
+          <div class="contact-form-container">
+            <form id="contact-form" class="form">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" placeholder="John Doe">
+                <span class="error-msg" id="name-error">Please enter your name.</span>
+              </div>
+              <div class="form-group">
+                <label for="email">University Email</label>
+                <input type="email" id="email" placeholder="john@university.edu">
+                <span class="error-msg" id="email-error">Please enter a valid email.</span>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" rows="4" placeholder="Hey, it would be cool if..."></textarea>
+                <span class="error-msg" id="message-error">Message cannot be empty.</span>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+              <div class="success-msg" id="form-success">Thanks for the feedback! I'll read it soon.</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="#home" class="nav-logo">
+            <span class="logo-icon">📚</span>
+            Study<span class="logo-accent">AI</span>
+          </a>
+          <p>A simple study companion.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#features">Features</a>
+          <a href="#focus">Focus Mode</a>
+          <a href="#why">Why Us</a>
+          <a href="https://github.com" target="_blank">GitHub Repo</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Built as <strong>Oasis Infobyte Task 1</strong> by <strong>GVarun</strong>.</p>
+        <p>&copy; 2026. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -186,6 +186,14 @@ To access the Admin Console dashboard, log in with the seeded credentials:
 
 ---
 
+## SCREENSHOTS 
+
+<img width="1920" height="1020" alt="Screenshot 2026-07-04 104555" src="https://github.com/user-attachments/assets/024e6e03-0537-495e-bc3c-d72838c43931" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-04 104547" src="https://github.com/user-attachments/assets/53e64843-fd47-4364-a673-3f9695f13990" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-04 104535" src="https://github.com/user-attachments/assets/c09b2007-6f4e-489c-9dd7-4776348cb2b5" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-04 104502" src="https://github.com/user-attachments/assets/f99e0cf9-9f56-4631-884d-c3c017c4e300" />
+
+
 ## 📝 License
 This project is developed as an Internship evaluation project. Free to showcase in portfolios.
 

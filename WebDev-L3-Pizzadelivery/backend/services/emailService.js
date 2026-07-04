@@ -37,6 +37,7 @@ const createTransporter = async () => {
       host: process.env.SMTP_HOST,
       port: port,
       secure: isSecure,
+      requireTLS: !isSecure, // Enforce TLS upgrade if not SSL (e.g. port 587)
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,

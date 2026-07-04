@@ -107,8 +107,12 @@ const createTransporter = async () => {
 const sendMail = async ({ to, subject, html, fromName = 'PizzaPilot', fromEmail = 'no-reply@pizzapilot.com' }) => {
   const apiKey = process.env.BREVO_API_KEY;
 
+  // Enforce using the verified sender email registered on Brevo (from environment variables)
+  const senderEmail = process.env.SENDER_EMAIL || process.env.SMTP_USER || fromEmail;
+  const senderName = process.env.SENDER_NAME || fromName;
+
   if (apiKey) {
-    console.log(`[MAIL] Sending email via Brevo HTTPS API to ${to}...`);
+    console.log(`[MAIL] Sending email via Brevo HTTPS API to ${to}... (Sender: ${senderEmail})`);
     try {
       const response = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
@@ -119,8 +123,8 @@ const sendMail = async ({ to, subject, html, fromName = 'PizzaPilot', fromEmail 
         },
         body: JSON.stringify({
           sender: {
-            name: fromName,
-            email: fromEmail
+            name: senderName,
+            email: senderEmail
           },
           to: [
             {
@@ -148,7 +152,7 @@ const sendMail = async ({ to, subject, html, fromName = 'PizzaPilot', fromEmail 
     try {
       const mailTransporter = await createTransporter();
       const info = await mailTransporter.sendMail({
-        from: `"${fromName}" <${fromEmail}>`,
+        from: `"${senderName}" <${senderEmail}>`,
         to,
         subject,
         html,

@@ -2,14 +2,23 @@ import nodemailer from 'nodemailer';
 
 const getFrontendUrl = () => {
   const urlEnv = process.env.FRONTEND_URL;
-  if (!urlEnv) return 'https://oibsip-2uvp.vercel.app';
+  let url = 'https://oibsip-2uvp.vercel.app';
   
-  if (urlEnv.includes(',')) {
-    const urls = urlEnv.split(',').map(u => u.trim());
-    const nonLocal = urls.find(u => !u.includes('localhost'));
-    return nonLocal || urls[0];
+  if (urlEnv) {
+    if (urlEnv.includes(',')) {
+      const urls = urlEnv.split(',').map(u => u.trim());
+      const nonLocal = urls.find(u => !u.includes('localhost'));
+      url = nonLocal || urls[0];
+    } else {
+      url = urlEnv.trim();
+    }
   }
-  return urlEnv;
+  
+  // Strip trailing slashes to prevent double slashes (e.g. //verify-email)
+  while (url.endsWith('/')) {
+    url = url.slice(0, -1);
+  }
+  return url;
 };
 
 let transporter;

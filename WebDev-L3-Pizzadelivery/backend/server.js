@@ -60,6 +60,9 @@ app.use(
   })
 );
 
+// Trust proxy settings (required for express-rate-limit behind proxies like Render)
+app.set('trust proxy', 1);
+
 // Express rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes

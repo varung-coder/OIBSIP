@@ -28,6 +28,9 @@ const createTransporter = async () => {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
+      connectionTimeout: 5000, // 5s connection timeout
+      greetingTimeout: 5000,
+      socketTimeout: 5000,
     });
     console.log('[MAIL] Configured SMTP Transporter.');
   } else {
@@ -41,6 +44,9 @@ const createTransporter = async () => {
           user: testAccount.user,
           pass: testAccount.pass,
         },
+        connectionTimeout: 2000, // 2s connection timeout for Ethereal fallback
+        greetingTimeout: 2000,
+        socketTimeout: 3000,
       });
       console.log(`[MAIL] SMTP environment variables not configured. Created dynamic Ethereal Test Account.`);
       console.log(`[MAIL] Ethereal Username: ${testAccount.user}`);
@@ -62,6 +68,7 @@ export const sendVerificationEmail = async (email, name, token) => {
   try {
     const mailTransporter = await createTransporter();
     const verificationUrl = `${getFrontendUrl()}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+    console.log(`[MAIL] Dispatching Verification URL to ${email}: ${verificationUrl}`);
 
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
@@ -101,6 +108,7 @@ export const sendPasswordResetEmail = async (email, name, token) => {
   try {
     const mailTransporter = await createTransporter();
     const resetUrl = `${getFrontendUrl()}/reset-password?token=${token}`;
+    console.log(`[MAIL] Dispatching Password Reset URL to ${email}: ${resetUrl}`);
 
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">

@@ -46,14 +46,30 @@ export const register = async (req, res, next) => {
       type: 'verification',
     });
 
-    // Send email
-    const emailResult = await sendVerificationEmail(user.email, user.name, verificationToken);
+    // Send email (non-blocking in production, awaited in development)
+    if (process.env.NODE_ENV === 'production') {
+      sendVerificationEmail(user.email, user.name, verificationToken)
+        .then((emailResult) => {
+          if (!emailResult.success) {
+            console.error(`[MAIL ERROR] Verification email delivery failed asynchronously: ${emailResult.error}`);
+          }
+        })
+        .catch((err) => {
+          console.error(`[MAIL ERROR] Verification email failed asynchronously: ${err.message}`);
+        });
 
-    res.status(201).json({
-      success: true,
-      message: 'Registration successful! Please check your email to verify your account.',
-      previewUrl: emailResult.previewUrl || null,
-    });
+      res.status(201).json({
+        success: true,
+        message: 'Registration successful! Please check your email to verify your account.',
+      });
+    } else {
+      const emailResult = await sendVerificationEmail(user.email, user.name, verificationToken);
+      res.status(201).json({
+        success: true,
+        message: 'Registration successful! Please check your email to verify your account.',
+        previewUrl: emailResult.previewUrl || null,
+      });
+    }
   } catch (error) {
     next(error);
   }
@@ -145,10 +161,25 @@ export const login = async (req, res, next) => {
         });
       }
 
-      const emailResult = await sendVerificationEmail(user.email, user.name, verificationToken);
+      // Send email (non-blocking in production, awaited in development)
+      if (process.env.NODE_ENV === 'production') {
+        sendVerificationEmail(user.email, user.name, verificationToken)
+          .then((emailResult) => {
+            if (!emailResult.success) {
+              console.error(`[MAIL ERROR] Verification email delivery failed asynchronously: ${emailResult.error}`);
+            }
+          })
+          .catch((err) => {
+            console.error(`[MAIL ERROR] Verification email failed asynchronously: ${err.message}`);
+          });
 
-      res.status(403);
-      return next(new Error(`Account not verified. A verification link has been sent to your email. Verification Preview Link: ${emailResult.previewUrl || ''}`));
+        res.status(403);
+        return next(new Error('Account not verified. A verification link has been sent to your email.'));
+      } else {
+        const emailResult = await sendVerificationEmail(user.email, user.name, verificationToken);
+        res.status(403);
+        return next(new Error(`Account not verified. A verification link has been sent to your email. Verification Preview Link: ${emailResult.previewUrl || ''}`));
+      }
     }
 
     // Generate JWT token
@@ -201,14 +232,30 @@ export const forgotPassword = async (req, res, next) => {
       type: 'reset',
     });
 
-    // Send email
-    const emailResult = await sendPasswordResetEmail(user.email, user.name, resetToken);
+    // Send email (non-blocking in production, awaited in development)
+    if (process.env.NODE_ENV === 'production') {
+      sendPasswordResetEmail(user.email, user.name, resetToken)
+        .then((emailResult) => {
+          if (!emailResult.success) {
+            console.error(`[MAIL ERROR] Password reset email delivery failed asynchronously: ${emailResult.error}`);
+          }
+        })
+        .catch((err) => {
+          console.error(`[MAIL ERROR] Password reset email failed asynchronously: ${err.message}`);
+        });
 
-    res.status(200).json({
-      success: true,
-      message: 'Password reset link sent! Check your inbox.',
-      previewUrl: emailResult.previewUrl || null,
-    });
+      res.status(200).json({
+        success: true,
+        message: 'Password reset link sent! Check your inbox.',
+      });
+    } else {
+      const emailResult = await sendPasswordResetEmail(user.email, user.name, resetToken);
+      res.status(200).json({
+        success: true,
+        message: 'Password reset link sent! Check your inbox.',
+        previewUrl: emailResult.previewUrl || null,
+      });
+    }
   } catch (error) {
     next(error);
   }

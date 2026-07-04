@@ -1,5 +1,17 @@
 import nodemailer from 'nodemailer';
 
+const getFrontendUrl = () => {
+  const urlEnv = process.env.FRONTEND_URL;
+  if (!urlEnv) return 'https://oibsip-2uvp.vercel.app';
+  
+  if (urlEnv.includes(',')) {
+    const urls = urlEnv.split(',').map(u => u.trim());
+    const nonLocal = urls.find(u => !u.includes('localhost'));
+    return nonLocal || urls[0];
+  }
+  return urlEnv;
+};
+
 let transporter;
 
 const createTransporter = async () => {
@@ -49,7 +61,7 @@ const createTransporter = async () => {
 export const sendVerificationEmail = async (email, name, token) => {
   try {
     const mailTransporter = await createTransporter();
-    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
+    const verificationUrl = `${getFrontendUrl()}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">
@@ -88,7 +100,7 @@ export const sendVerificationEmail = async (email, name, token) => {
 export const sendPasswordResetEmail = async (email, name, token) => {
   try {
     const mailTransporter = await createTransporter();
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${token}`;
+    const resetUrl = `${getFrontendUrl()}/reset-password?token=${token}`;
 
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #ffffff;">

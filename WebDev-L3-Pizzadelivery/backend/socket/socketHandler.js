@@ -3,9 +3,23 @@ import { Server } from 'socket.io';
 let ioInstance = null;
 
 export const initSocket = (server) => {
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://oibsip-2uvp.vercel.app'
+  ];
+
+  if (process.env.FRONTEND_URL) {
+    const envOrigins = process.env.FRONTEND_URL.split(',').map(o => o.trim());
+    envOrigins.forEach(origin => {
+      if (origin && !allowedOrigins.includes(origin)) {
+        allowedOrigins.push(origin);
+      }
+    });
+  }
+
   ioInstance = new Server(server, {
     cors: {
-      origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+      origin: allowedOrigins,
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true,
     },

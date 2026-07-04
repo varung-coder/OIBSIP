@@ -29,10 +29,14 @@ const createTransporter = async () => {
   const hasSmtpConfig = process.env.SMTP_HOST && process.env.SMTP_PORT && process.env.SMTP_USER && process.env.SMTP_PASS;
 
   if (hasSmtpConfig) {
+    const port = parseInt(process.env.SMTP_PORT);
+    // secure: true for SSL (port 465), false for STARTTLS (port 587 and others)
+    const isSecure = port === 465;
+
     transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT),
-      secure: process.env.SMTP_PORT === '465',
+      port: port,
+      secure: isSecure,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
@@ -41,7 +45,13 @@ const createTransporter = async () => {
       greetingTimeout: 5000,
       socketTimeout: 5000,
     });
-    console.log('[MAIL] Configured SMTP Transporter.');
+
+    try {
+      await transporter.verify();
+      console.log(`[MAIL] Configured and verified SMTP Transporter successfully (${process.env.SMTP_HOST}:${port}).`);
+    } catch (verifyErr) {
+      console.error(`[MAIL ERROR] SMTP Transporter verification failed: ${verifyErr.message}`);
+    }
   } else {
     try {
       const testAccount = await nodemailer.createTestAccount();
@@ -60,13 +70,21 @@ const createTransporter = async () => {
       console.log(`[MAIL] SMTP environment variables not configured. Created dynamic Ethereal Test Account.`);
       console.log(`[MAIL] Ethereal Username: ${testAccount.user}`);
       console.log(`[MAIL] Ethereal Password: ${testAccount.pass}`);
+
+      try {
+        await transporter.verify();
+        console.log('[MAIL] Ethereal fallback Transporter verified successfully.');
+      } catch (verifyErr) {
+        console.error(`[MAIL ERROR] Ethereal Transporter verification failed: ${verifyErr.message}`);
+      }
     } catch (err) {
       console.error('[MAIL] Failed to create Ethereal test account:', err.message);
       transporter = {
         sendMail: async (options) => {
           console.log(`[MAIL MOCK] Mail sent (Simulated). Dest: ${options.to}, Subject: ${options.subject}`);
           return { messageId: 'mock-id-12345' };
-        }
+        },
+        verify: async () => true,
       };
     }
   }

@@ -1,5 +1,17 @@
 import nodemailer from 'nodemailer';
 
+// Log and verify SMTP/Brevo environment variables on module import (server boot)
+const smtpHost = process.env.SMTP_HOST;
+const smtpPort = process.env.SMTP_PORT;
+const smtpUser = process.env.SMTP_USER;
+
+console.log('[SMTP DEPLOYMENT DIAGNOSTICS]');
+console.log(`- SMTP_HOST: ${smtpHost !== undefined ? `"${smtpHost}"` : 'UNDEFINED'}`);
+console.log(`- SMTP_PORT: ${smtpPort !== undefined ? `"${smtpPort}"` : 'UNDEFINED'}`);
+console.log(`- SMTP_USER: ${smtpUser !== undefined ? `"${smtpUser}"` : 'UNDEFINED'}`);
+console.log(`- SMTP_PASS: ${process.env.SMTP_PASS !== undefined ? 'PRESENT (HIDDEN)' : 'UNDEFINED'}`);
+console.log(`- BREVO_API_KEY: ${process.env.BREVO_API_KEY !== undefined ? 'PRESENT (HIDDEN)' : 'UNDEFINED'}`);
+
 const getFrontendUrl = () => {
   const urlEnv = process.env.FRONTEND_URL;
   let url = 'https://oibsip-2uvp.vercel.app';
@@ -92,9 +104,76 @@ const createTransporter = async () => {
   return transporter;
 };
 
+const sendMail = async ({ to, subject, html, fromName = 'PizzaPilot', fromEmail = 'no-reply@pizzapilot.com' }) => {
+  const apiKey = process.env.BREVO_API_KEY;
+
+  if (apiKey) {
+    console.log(`[MAIL] Sending email via Brevo HTTPS API to ${to}...`);
+    try {
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'api-key': apiKey,
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          sender: {
+            name: fromName,
+            email: fromEmail
+          },
+          to: [
+            {
+              email: to
+            }
+          ],
+          subject: subject,
+          htmlContent: html
+        })
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || `API responded with status ${response.status}`);
+      }
+      console.log(`[MAIL] Email sent successfully via Brevo API. Message ID: ${data.messageId}`);
+      return { success: true };
+    } catch (err) {
+      console.error(`[MAIL ERROR] Brevo API send failed: ${err.message}`);
+      return { success: false, error: err.message };
+    }
+  } else {
+    // Local development fallback: Nodemailer + Ethereal
+    console.log(`[MAIL] BREVO_API_KEY is not configured. Falling back to local Ethereal SMTP transporter.`);
+    try {
+      const mailTransporter = await createTransporter();
+      const info = await mailTransporter.sendMail({
+        from: `"${fromName}" <${fromEmail}>`,
+        to,
+        subject,
+        html,
+      });
+
+      let previewUrl = null;
+      try {
+        previewUrl = nodemailer.getTestMessageUrl(info);
+      } catch (previewErr) {
+        // Ignore mock transporter check
+      }
+
+      if (previewUrl) {
+        console.log(`[MAIL] Ethereal Preview Link: ${previewUrl}`);
+      }
+      return { success: true, previewUrl };
+    } catch (err) {
+      console.error(`[MAIL ERROR] Ethereal SMTP send failed: ${err.message}`);
+      return { success: false, error: err.message };
+    }
+  }
+};
+
 export const sendVerificationEmail = async (email, name, token) => {
   try {
-    const mailTransporter = await createTransporter();
     const verificationUrl = `${getFrontendUrl()}/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
     console.log(`[MAIL] Dispatching Verification URL to ${email}: ${verificationUrl}`);
 
@@ -114,18 +193,11 @@ export const sendVerificationEmail = async (email, name, token) => {
       </div>
     `;
 
-    const info = await mailTransporter.sendMail({
-      from: '"PizzaPilot" <no-reply@pizzapilot.com>',
+    return await sendMail({
       to: email,
       subject: 'Verify your PizzaPilot Account 🍕',
       html,
     });
-
-    const previewUrl = nodemailer.getTestMessageUrl(info);
-    if (previewUrl) {
-      console.log(`[MAIL] Verification Email Link (Ethereal Preview): ${previewUrl}`);
-    }
-    return { success: true, previewUrl };
   } catch (error) {
     console.error(`[MAIL ERROR] Verification email failed: ${error.message}`);
     return { success: false, error: error.message };
@@ -134,7 +206,6 @@ export const sendVerificationEmail = async (email, name, token) => {
 
 export const sendPasswordResetEmail = async (email, name, token) => {
   try {
-    const mailTransporter = await createTransporter();
     const resetUrl = `${getFrontendUrl()}/reset-password?token=${token}`;
     console.log(`[MAIL] Dispatching Password Reset URL to ${email}: ${resetUrl}`);
 
@@ -155,18 +226,11 @@ export const sendPasswordResetEmail = async (email, name, token) => {
       </div>
     `;
 
-    const info = await mailTransporter.sendMail({
-      from: '"PizzaPilot" <no-reply@pizzapilot.com>',
+    return await sendMail({
       to: email,
       subject: 'Reset your PizzaPilot Password 🔑',
       html,
     });
-
-    const previewUrl = nodemailer.getTestMessageUrl(info);
-    if (previewUrl) {
-      console.log(`[MAIL] Reset Password Email Link (Ethereal Preview): ${previewUrl}`);
-    }
-    return { success: true, previewUrl };
   } catch (error) {
     console.error(`[MAIL ERROR] Password reset email failed: ${error.message}`);
     return { success: false, error: error.message };
@@ -175,8 +239,6 @@ export const sendPasswordResetEmail = async (email, name, token) => {
 
 export const sendLowStockAlertEmail = async (adminEmail, items) => {
   try {
-    const mailTransporter = await createTransporter();
-
     let itemsHtml = '';
     for (const item of items) {
       itemsHtml += `
@@ -218,18 +280,13 @@ export const sendLowStockAlertEmail = async (adminEmail, items) => {
       </div>
     `;
 
-    const info = await mailTransporter.sendMail({
-      from: '"PizzaPilot Alert" <alerts@pizzapilot.com>',
+    return await sendMail({
       to: adminEmail,
       subject: '⚠️ LOW STOCK ALERT: PizzaPilot Inventory Critical',
       html,
+      fromName: 'PizzaPilot Alert',
+      fromEmail: 'alerts@pizzapilot.com',
     });
-
-    const previewUrl = nodemailer.getTestMessageUrl(info);
-    if (previewUrl) {
-      console.log(`[MAIL] Low Stock Email Link (Ethereal Preview): ${previewUrl}`);
-    }
-    return { success: true, previewUrl };
   } catch (error) {
     console.error(`[MAIL ERROR] Low stock alert email failed: ${error.message}`);
     return { success: false, error: error.message };

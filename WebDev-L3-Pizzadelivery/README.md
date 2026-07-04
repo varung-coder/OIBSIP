@@ -188,3 +188,7 @@ To access the Admin Console dashboard, log in with the seeded credentials:
 
 ## 📝 License
 This project is developed as an Internship evaluation project. Free to showcase in portfolios.
+
+## AUTHOR 
+G VARUN 
+Web development Intern at Oasis Infobyte

@@ -195,6 +195,8 @@ To access the Admin Console dashboard, log in with the seeded credentials:
 <img width="1920" height="1020" alt="Screenshot 2026-07-04 110345" src="https://github.com/user-attachments/assets/627ca862-b2e3-494b-a526-0604ebd8112d" />
 <img width="1920" height="1020" alt="Screenshot 2026-07-04 110410" src="https://github.com/user-attachments/assets/2adfddcc-e7da-4848-9a19-d16adbbcd8ac" />
 <img width="1920" height="1020" alt="Screenshot 2026-07-07 183725" src="https://github.com/user-attachments/assets/3dfc0202-6492-4488-ab1e-36853b21d051" />
+<img width="1920" height="1020" alt="Screenshot 2026-07-07 183907" src="https://github.com/user-attachments/assets/87002534-6745-4438-a48c-9ae7a272dbc2" />
+
 
 
 
